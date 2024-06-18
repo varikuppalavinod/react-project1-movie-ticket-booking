@@ -1,12 +1,28 @@
 
 
 .form{
+    position:fixed;
+    margin-left:27rem;
+    margin-bottom:10rem;
     padding:20px;
     text-align:center;
     width:10rem;
-    margin:auto;
-    background-color:#a44df4
+    
+    background-color:#a44df4;
+    
 }
+.data{
+    position:fixed;
+    top:14rem;
+    overflow-y:auto;
+    max-height: 300px;
+    width:100%;
+}
+hr{
+    width:69rem;
+    position:fixed;
+}
+
 .formpage{
     color:white;
 }

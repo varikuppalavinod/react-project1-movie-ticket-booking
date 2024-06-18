@@ -13,6 +13,7 @@ const App=()=>{
     password:"",
     id:"",
   })
+
   const changehandler=(e)=>{
     
         setdata({
@@ -23,6 +24,7 @@ const App=()=>{
   }
   const submithandler=(event)=>{
     event.preventDefault()
+   
     if(data.id){
       let updatedlist=list.map((item)=>item.id===data.id
       ?{...item,name:data.name} : item
@@ -77,20 +79,23 @@ const App=()=>{
     <form className="form" onSubmit={submithandler}>
       <div>
       <label htmlFor="name">Name:</label>
-      <input type="text" id="name" value={data.name} onChange={changehandler}/>
+      <input type="text" id="name" minlength="4" maxlength="15" required value={data.name} onChange={changehandler}/>
       </div>
       <div>
       <label htmlFor="email">Email:</label>
-      <input type="email" id="email" value={data.email} onChange={changehandler}/>
+      <input type="email" id="email" minlength="5" maxlength="15" required value={data.email} onChange={changehandler}/>
       </div>
       <div>
       <label htmlFor="password">Password:</label>
-      <input type="password" id="password" value={data.password} onChange={changehandler}/>
+      <input type="password" id="password" minlength="5" maxlength="15" required value={data.password} onChange={changehandler}/>
       </div>
       <br></br>
      {isediting ?(<button type="submit">Add</button>):(<button onClick={updatechange}>Update</button>)}
     </form>
+    <div className="data">
     <hr></hr>
+
+    {list.length===0 && <h1>No Data</h1> }
     {list.map((item)=><ul>
       <li key={item.id}>
         {item.name}____{item.email}____{item.password}
@@ -98,6 +103,7 @@ const App=()=>{
         <button onClick={()=>{deletehandler(item.id)}}>Delete</button>
       </li>
     </ul>)}
+  </div>
   </div>
  )
 }
