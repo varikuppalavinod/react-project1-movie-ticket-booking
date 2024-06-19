@@ -1,5 +1,83 @@
 
+import {useEffect,useState} from "react"
 
+const URL="https://jsonplaceholder.typicode.com/users"
+
+
+const App=()=>{
+  const[data,setdata]=useState([])
+  const[loading,setloading]=useState(false)
+  const[error,setiserror]=useState({status:false,msg:""})
+  
+  const fetchingmethod=async (apiurl)=>{
+
+    setloading(true)
+    setiserror({status:false,msg:""})
+    try{
+      const response= await fetch(apiurl)
+      const responsedata= await response.json()
+      console.log(responsedata)
+      setdata(responsedata)
+      setloading(false)
+      setiserror({status:false,msg:""})
+      if(response.status===404){
+       throw new Error("data not found")
+      }
+    }catch(error){
+     console.log(error.message)
+     setloading(false)
+     setiserror({status:true,msg:error.message||"something went wrong"})
+     
+    }
+  }
+     /*
+    const fetchingmethod= (apiurl)=>{
+      fetch(apiurl)
+      .then((response)=>{
+        if(response.ok){
+          return response.json()
+        }
+        throw new Error("network response was not ok")
+      }).then((response)=>{
+        console.log(response)
+        setdata(response)
+      }).catch((error)=>{
+        console.log(error.message)
+      })
+    }
+    */
+  useEffect(()=>{
+    fetchingmethod(URL)
+  },[])
+
+
+  if(loading){
+    return <div>
+      <h1>Loading...</h1>
+    </div>
+  }
+  if(error.status){
+    return <div>
+            <h3 style={{color:"red"}}>{error.msg}</h3>
+           </div>
+  }
+    return(
+      <div>
+        <h1>this is fetch method using useffect</h1>
+        <hr></hr>
+        {data.map((item)=>
+        <ul key={item.id}>
+          <li>{item.name}</li>
+        </ul>)}
+
+
+      </div>
+    )
+}
+export default App
+
+
+/*
 import "./App.css"
 import{useState} from "react"
 
@@ -130,87 +208,5 @@ const App=()=>{
  )
 }
 export default App
-
-
-/*
-import "./App.css";
-import { useState } from "react";
-
-const App = () => {
-  const [list, setList] = useState([]);
-  const [data, setData] = useState({
-    message: "",
-    id: "",
-  });
-
-  const changeHandler = (e) => {
-    setData({
-      ...data,
-      message: e.target.value,
-    });
-  };
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-    if (data.id) {
-      const updatedList = list.map((item) =>
-        item.id === data.id ? { ...item, message: data.message } : item
-      );
-      setList(updatedList);
-    } else {
-      let newTodo = {
-        message: data.message,
-        id: Math.random(),
-      };
-      setList([...list, newTodo]);
-    }
-    setData({
-      message: "",
-      id: "",
-    });
-  };
-
-  const deleteHandler = (id) => {
-    const newList = list.filter((item) => item.id !== id);
-    setList(newList);
-  };
-
-  const editHandler = (id) => {
-    const editData = list.find((item) => item.id === id);
-    setData({
-      message: editData.message,
-      id: editData.id,
-    });
-  };
-
-  return (
-    <div>
-      <form className="form" onSubmit={submitHandler}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={data.message}
-            onChange={changeHandler}
-          />
-        </div>
-        <br />
-        <button type="submit">{data.id ? "Update" : "Add"}</button>
-      </form>
-      <hr />
-      <ul>
-        {list.map((item) => (
-          <li key={item.id}>
-            {item.message}
-            <button onClick={() => editHandler(item.id)}>Edit</button>
-            <button onClick={() => deleteHandler(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default App;
 */
+
