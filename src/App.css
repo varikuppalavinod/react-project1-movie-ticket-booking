@@ -1,7 +1,6 @@
 .search{
     text-align:center;
 }
-
 .cocktaildata{
     display:grid;
     grid-template-columns:1fr;
