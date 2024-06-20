@@ -1,4 +1,59 @@
 
+
+import{useEffect,useState} from "react"
+import "./App.css"
+
+const URL="https://www.thecocktaildb.com/api/json/v1/1/search.php?f=";
+const App=()=>{
+  const[data,setdata]=useState([])
+  const[searchslot,setsearchslot]=useState('')
+  const[loading,setisloading]=useState(false)
+
+
+  const fetchingdata=async(apiurl)=>{
+    setisloading(true)
+    try{
+    const response=await fetch(apiurl)
+    const {drinks}=await response.json()
+    console.log(drinks)
+    setdata(drinks)
+    setisloading(false)
+    }catch(error){
+      console.log(error.message)
+      setisloading(false)
+    }
+  }
+    useEffect(() => {
+    const initialURL = `${URL}a`; // Fetches data for cocktails starting with 'a'
+    fetchingdata(initialURL);
+  }, []); // Empty dependency array means this runs once when the component mounts
+
+
+  useEffect(()=>{
+    const correctURL=`${URL}${searchslot}`
+    fetchingdata(correctURL)
+  },[searchslot])
+  return(
+    <div>
+    <div className="search">
+      <input type="text" placeholder="search something new"
+      value={searchslot} onChange={(e)=>{setsearchslot(e.target.value)}}/>
+      </div>
+      <hr></hr>
+      {loading &&<h1>Loading...</h1>}
+     <ul  className="cocktaildata">
+     {data.map((item)=><li key={item.strDrink}>
+        <div><img src={item.strDrinkThumb} alt={item.strDrink}/></div>
+        <div>{item.strDrink}</div>
+      </li>)}
+     </ul>
+    </div>
+  )
+}
+export default App
+
+
+/*
 import {useEffect,useState} from "react"
 
 const URL="https://jsonplaceholder.typicode.com/users"
@@ -46,6 +101,7 @@ const App=()=>{
       })
     }
     */
+   /*
   useEffect(()=>{
     fetchingmethod(URL)
   },[])
@@ -75,7 +131,7 @@ const App=()=>{
     )
 }
 export default App
-
+*/
 
 /*
 import "./App.css"
