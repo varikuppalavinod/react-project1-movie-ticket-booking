@@ -1,6 +1,6 @@
 import Header from "./components/Header"
 import Firstcomponent from "./components/firstcomponent"
-import Secondcomponent from "./components/secondcomponent"
+import Secondcomponent from "./components/Secondcomponent"
 import First from "./components/first"
 import Second from "./components/second"
 import{BrowserRouter,Routes,Route} from "react-router-dom"
