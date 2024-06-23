@@ -1,43 +1,48 @@
-import{createStore} from "redux"
+import{createSlice,configureStore} from "@reduxjs/toolkit"
 
 
-const initialState={
+const state={
     amount:0,
-    fullname:"",
+    name:"",
     mobilenumber:""
-}
+} 
 
-const accountreducer=(state=initialState,action)=>{
-     
-    if(action.type==="deposit"){
-       return {...state,amount:state.amount+ +action.payload}
-    }
-    else if(action.type==="withdraw"){
-        if(state.amount<action.payload){
-          alert("insufficient balance")
-        }else{
-            return {...state,amount:state.amount- +action.payload}
+const userslice=createSlice({
+    name:"user",
+    initialState:state,
+    reducers:{
+        Depositamount:(state,action)=>{
+            state.amount=state.amount+ +action.payload
+        },
+        Withdrawamount:(state,action)=>{
+            if(state.amount<action.payload){
+               return alert("not a sufficient balance")
+            }else{
+                state.amount=state.amount- +action.payload
+
+            }
+
+          //  state.amount=state.amount- +action.payload
+
+        },
+        Updatename:(state,action)=>{
+            state.name=action.payload
+        },
+        Updatenumber:(state,action)=>{
+            state.mobilenumber=action.payload
+        },
+        Reset:()=>{
+          return state;
         }
-        return state
-               
-      //  return {...state,amount:state.amount- +action.payload}
     }
-    
-    
-    else if(action.type==="updatename"){
-      return {...state,fullname:action.payload}
-    }
-    else if(action.type==="updatenumber"){
-        return {...state,mobilenumber:action.payload}
-    }
-    else if(action.type==="reset"){
-        return initialState
-    }
-    else{
-        return state
-    }
-}
+    })
 
-const store=createStore(accountreducer)
+    const store=configureStore({
+        reducer:{
+            user:userslice.reducer,
+        }
+    })
 
-export default store
+    export const {Depositamount,Withdrawamount,Updatename,Updatenumber,Reset}=userslice.actions
+
+    export default store

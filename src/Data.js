@@ -2,10 +2,11 @@ import{useSelector} from "react-redux"
 
 const Data = () => {
 
-   const amount=useSelector(state=>state.amount)
-   const name=useSelector(state=>state.fullname)
-   const mnumber=useSelector(state=>state.mobilenumber)
+   const amount=useSelector((state)=>state.user.amount)
+   const name=useSelector(state=>state.user.name)
+   const mnumber=useSelector(state=>state.user.mobilenumber)
 
+   
     
     return (
         <div>

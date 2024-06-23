@@ -1,97 +1,39 @@
 import "./form.css"
 import {useState} from "react"
+import{Depositamount,Withdrawamount,Updatename,Updatenumber,Reset} from "./store"
 import {useDispatch} from "react-redux"
-import{deposit,withdraw,updatename,updatenumber} from "./actions"
 
 
 const Form=()=>{
-
-const dispatch=useDispatch()
-
 const[amount,setamount]=useState('')
 const[name,setname]=useState('')
 const[number,setnumber]=useState('')
 
-
-const deposithandler=()=>{
-    dispatch(deposit(amount))
-    setamount("")
-}
+const dispatch=useDispatch()
 
     return(
         <div className="form">
           <div>
           
-            <input type="number" placeholder="enter amount"
-             value={amount} onChange={(e)=>{setamount(e.target.value)}}/>
-            <button onClick={deposithandler}>Deposit</button>
-            <button onClick={()=>{dispatch(withdraw(amount));setamount("")}}>Withdraw</button>
+            <input type="number" placeholder="enter amount" value={amount}
+            onChange={(e)=>{setamount(e.target.value)}}/>
+            <button onClick={()=>dispatch(Depositamount(amount),setamount(""))}>Deposit</button>
+            <button onClick={()=>dispatch(Withdrawamount(amount),setamount(""))}>Withdraw</button>
           </div>
           <div>
             
-            <input type="text" placeholder="enter name"
-            value={name} onChange={(e)=>{setname(e.target.value)}}/>
-            <button onClick={()=>{dispatch(updatename(name));setname("")}}>Update</button>
+            <input type="text" placeholder="enter name" value={name}
+            onChange={(e)=>{setname(e.target.value)}}/>
+            <button onClick={()=>dispatch(Updatename(name))}>Update</button>
           </div>
           <div>
         
-            <input type="number" placeholder="enter mobile number" value={number}
+            <input type="number" placeholder="enter mobile number" vlue={number}
             onChange={(e)=>{setnumber(e.target.value)}}/>
-            <button onClick={()=>{dispatch(updatenumber(number));setnumber("")}}>Update</button>
-            <button onClick={()=>dispatch({type:"reset"})}>reset</button>
+            <button onClick={()=>dispatch(Updatenumber(number))}>Update</button>
+            <button onClick={()=>dispatch(Reset())}>reset</button>
           </div>
         </div>
     )
 }
 export default Form
-
-
-
-/*
-import "./form.css"
-import {useState} from "react"
-import {useDispatch} from "react-redux"
-
-
-const Form=()=>{
-
-const dispatch=useDispatch()
-
-const[amount,setamount]=useState('')
-const[name,setname]=useState('')
-const[number,setnumber]=useState('')
-
-
-const deposithandler=()=>{
-    dispatch({type:"deposit",payload:amount})
-    setamount("")
-}
-
-    return(
-        <div className="form">
-          <div>
-          
-            <input type="number" placeholder="enter amount"
-             value={amount} onChange={(e)=>{setamount(e.target.value)}}/>
-            <button onClick={deposithandler}>Deposit</button>
-            <button onClick={()=>{dispatch({type:"withdraw",payload:amount});setamount("")}}>Withdraw</button>
-          </div>
-          <div>
-            
-            <input type="text" placeholder="enter name"
-            value={name} onChange={(e)=>{setname(e.target.value)}}/>
-            <button onClick={()=>{dispatch({type:"updatename",payload:name});setname("")}}>Update</button>
-          </div>
-          <div>
-        
-            <input type="number" placeholder="enter mobile number" value={number}
-            onChange={(e)=>{setnumber(e.target.value)}}/>
-            <button onClick={()=>{dispatch({type:"updatenumber",payload:number});setnumber("")}}>Update</button>
-            <button onClick={()=>dispatch({type:"reset"})}>reset</button>
-          </div>
-        </div>
-    )
-}
-export default Form
-
-*/
